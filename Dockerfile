@@ -9,6 +9,7 @@ RUN apk update --no-cache && \
       postgresql-client \
       postgresql-dev \
       bash \
+      gettext \
       gfortran \
       freetype-dev \
       openblas-dev \
