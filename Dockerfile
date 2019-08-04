@@ -26,7 +26,13 @@ RUN ${PIP3} install -U pip
 RUN ${PIP3} install \
   django \
   django-webpack-loader \
+  django-cors-headers \
+  django-environ \
+  request \
+  gunicorn \
+  whitenoise \
   numpy \
   pandas \
-  Pillow
+  Pillow \
+  grpcio
   
