@@ -9,4 +9,4 @@ RUN echo Pre Python Version: ${VERSION}
 FROM python:${VERSION}-slim as app
 
 COPY --from=builder /root/site /root/site
-
+ENV PATH=/root/site/bin:$PATH
