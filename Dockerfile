@@ -35,6 +35,9 @@ RUN python${VERSION%.*} -m venv /root/site && \
       djangorestframework-csv \
       requests \
       gunicorn \
+      uvicorn \
+      httptools \
+      uvloop \
       whitenoise \
       numpy \
       pandas \
@@ -44,7 +47,10 @@ RUN python${VERSION%.*} -m venv /root/site && \
       wheel \
       oauth2client \
       Cython \
-      celery
+      celery \
+      channels \
+      asgi_redis \
+      feedparser
 
 
 # FROM python:${VERSION}-slim as app
