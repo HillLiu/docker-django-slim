@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  django:
+    image: hillliu/django-pandas-alpine:app
+    command: python manage.py runserver
