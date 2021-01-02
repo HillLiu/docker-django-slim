@@ -1,5 +1,10 @@
-Docker for Python-Pandas-OpenCV slim version
+Django docker image base on python slim docker image.
 ======
+* Content
+   * Django
+   * pandas
+   * OpenCV
+   * celery
 
 
 ## Inspire (Why change to use slim)
