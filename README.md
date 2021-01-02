@@ -7,5 +7,5 @@ Docker for Python-Pandas-OpenCV slim version
 * https://pythonspeed.com/articles/alpine-docker-python/
 
 ## Docker hub
-   * https://hub.docker.com/r/hillliu/django-pandas-opencv
+   * https://hub.docker.com/r/hillliu/django-slim
 
