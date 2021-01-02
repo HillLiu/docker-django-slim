@@ -5,6 +5,7 @@ sourceImage=`${DIR}/support/sourceImage.sh`
 targetImage=`${DIR}/support/targetImage.sh`
 archiveFile=$DIR/archive.tar
 VERSION=`${DIR}/support/VERSION.sh`
+DOCKER_FILE=${DOCKER_FILE-$DIR/Dockerfile}
 
 list(){
   docker images | head -10 
@@ -52,7 +53,7 @@ build(){
   else
     BUILD_ARG="--build-arg VERSION=${VERSION}"
   fi
-  docker build ${BUILD_ARG} ${NO_CACHE} -f ${DIR}/Dockerfile -t $sourceImage ${DIR}
+  docker build ${BUILD_ARG} ${NO_CACHE} -f ${DOCKER_FILE} -t $sourceImage ${DIR}
   list
 }
 
