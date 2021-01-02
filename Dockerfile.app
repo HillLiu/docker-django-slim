@@ -1,6 +1,6 @@
 ARG VERSION=${VERSION:-3.8.0}
 
-FROM hillliu/django-pandas-opencv as builder
+FROM hillliu/django-slim as builder
 
 ARG VERSION
 
