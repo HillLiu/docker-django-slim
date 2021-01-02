@@ -3,7 +3,7 @@
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
 DOCKER_FILE=$DIR/Dockerfile.app
 
-sourceImage="hillliu/django-pandas-opencv:app"
+sourceImage="hillliu/django-slim:app"
 
 build() {
   sourceImage=$sourceImage DOCKER_FILE=${DOCKER_FILE} $DIR/compile.sh b
