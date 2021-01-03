@@ -1,14 +1,12 @@
 ARG VERSION=${VERSION:-3.8.0}
 
 FROM python:${VERSION}-slim as builder
-ENV DEBIAN_FRONTEND="noninteractive"
 ARG VERSION
 RUN apt-get update && \
     apt-get install -qq -y --no-install-recommends \
-      sqlite3 \
       build-essential \
+      sqlite3 \
       postgresql-client \
-      bash \
       gettext \
       libpq-dev \
       libmaxminddb0 \
