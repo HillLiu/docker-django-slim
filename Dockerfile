@@ -28,6 +28,7 @@ RUN python${VERSION%.*} -m venv /root/site && \
       django-cors-headers \
       django-environ \
       django-storages \
+      django-celery-beat \
       django-celery-results \
       djangorestframework \
       djangorestframework-csv \
