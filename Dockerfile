@@ -1,4 +1,4 @@
-ARG VERSION=${VERSION:-3.8.0}
+ARG VERSION=${VERSION:-[VERSION]}
 
 FROM python:${VERSION}-slim as builder
 ARG VERSION
@@ -49,6 +49,7 @@ RUN python${VERSION%.*} -m venv /root/site && \
       celery \
       channels \
       asgi_redis \
+      psycopg2 \
       feedparser
 
 

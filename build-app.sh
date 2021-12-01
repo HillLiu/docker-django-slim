@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$(dirname "$0")" ; pwd -P )"
-DOCKER_FILE=$DIR/Dockerfile.app
+DOCKER_FILE=Dockerfile.app
 
 sourceImage="hillliu/django-slim:app"
 

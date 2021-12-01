@@ -1,4 +1,4 @@
-ARG VERSION=${VERSION:-3.8.0}
+ARG VERSION=${VERSION:-[VERSION]}
 
 FROM hillliu/django-slim as builder
 

@@ -1,0 +1,67 @@
+version: 2.1
+
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: hillliu/pmvc-phpunit
+    docker:
+      - image: circleci/buildpack-deps:18.04
+
+jobs:
+  build-and-publish:
+    parameters:
+      docker-tag:
+        type: string
+    executor: docker-publisher
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.7
+          docker_layer_caching: true
+      - run:
+          name: Log time
+          command: date
+      - run:
+          name: Gen Docker file
+          command: |
+            ./build.sh << parameters.docker-tag >>
+            cp ./cacert.pem ./php-<< parameters.docker-tag >>
+            ls -la php-<< parameters.docker-tag >>
+      - run:
+          name: build Docker image
+          command: |
+            docker build -f php-<< parameters.docker-tag >>/Dockerfile \
+              -t $IMAGE_NAME:<< parameters.docker-tag >> \
+              ./ver-<< parameters.docker-tag >>
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            ./compile.sh p << parameters.docker-tag >>
+  trigger-pmvc:
+    executor: docker-publisher
+    steps:
+      - run:
+          name: Trigger pmvc to test docker image
+          # https://app.circleci.com/settings/user/tokens
+          command: |
+            curl -X POST --url https://circleci.com/api/v2/project/github/pmvc/pmvc/pipeline \
+               --header "Content-Type: application/json" \
+               --header "Circle-Token: $CIRCLE_TOKEN"
+
+workflows:
+  run-job:
+    jobs:
+      - build-and-publish:
+          matrix:
+            parameters:
+              docker-tag: ["3.8"]
+  nightly:
+    jobs:
+      - trigger-pmvc
+    triggers:
+      - schedule:
+          cron: "0 0 1 * *"
+          filters:
+            branches:
+              only:
+                - main
