@@ -28,11 +28,8 @@ tag(){
 }
 
 push(){
-  if [ ! -z "$1" ]; then
-    PUSH_VERSION=$1
-  else
-    PUSH_VERSION=$VERSION
-  fi  
+  PUSH_VERSION=${1:-$VERSION}
+  LATEST_TAG=${2:-latest}
   if [ -z "$PUSH_VERSION" ]; then
     tag=latest
   else
@@ -45,7 +42,7 @@ push(){
   if [ ! -z "$1" ]; then
     if [ "x$VERSION" == "x$tag" ]; then
         echo "* <!-- Start to auto push latest"
-        docker tag ${targetImage}:$tag ${targetImage}:latest
+        docker tag ${targetImage}:$tag ${targetImage}:${LATEST_TAG}
         docker push ${targetImage}:latest
         echo "* Finish to push -->"
     fi
@@ -86,10 +83,10 @@ case "$1" in
     restore
     ;;
   p)
-    push $2
+    push $2 $3
     ;;
   t)
-    tag $2 
+    tag $2
     ;;
   nocache)  
     build --no-cache

@@ -33,10 +33,17 @@ jobs:
             docker build -f php-<< parameters.docker-tag >>/Dockerfile \
               -t $IMAGE_NAME:<< parameters.docker-tag >> \
               ./ver-<< parameters.docker-tag >>
+            docker build -f php-<< parameters.docker-tag >>/Dockerfile.app \
+              -t $IMAGE_NAME:app-<< parameters.docker-tag >> \
+              ./ver-<< parameters.docker-tag >>
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
             ./compile.sh p << parameters.docker-tag >>
+            
+            sourceImage=$IMAGE_NAME:app-<< parameters.docker-tag >> \
+            DOCKER_FILE=Dockerfile.app \
+            ./compile.sh p << parameters.docker-tag >> app
   trigger-pmvc:
     executor: docker-publisher
     steps:
