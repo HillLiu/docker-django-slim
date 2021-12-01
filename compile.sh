@@ -34,16 +34,19 @@ push(){
     tag=latest
   else
     tag=$PUSH_VERSION
+    if [ "x$LATEST_TAG" != "xlatest" ]; then
+        tag=$LATEST_TAG-$PUSH_VERSION
+    fi
   fi
-  echo "* <!-- Start to push ${tag}"
+  echo "* <!-- Start to push ${targetImage}:$tag"
   echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
   docker push ${targetImage}:$tag
   echo "* Finish to push -->"
   if [ ! -z "$1" ]; then
-    if [ "x$VERSION" == "x$tag" ]; then
-        echo "* <!-- Start to auto push latest"
+    if [ "x$VERSION" == "x$PUSH_VERSION" ]; then
+        echo "* <!-- Start to auto push ${targetImage}:${LATEST_TAG}"
         docker tag ${targetImage}:$tag ${targetImage}:${LATEST_TAG}
-        docker push ${targetImage}:latest
+        docker push ${targetImage}:${LATEST_TAG}
         echo "* Finish to push -->"
     fi
   fi
