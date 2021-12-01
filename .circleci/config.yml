@@ -3,7 +3,7 @@ version: 2.1
 executors:
   docker-publisher:
     environment:
-      IMAGE_NAME: hillliu/pmvc-phpunit
+      IMAGE_NAME: hillliu/django-slim
     docker:
       - image: circleci/buildpack-deps:18.04
 
@@ -25,15 +25,14 @@ jobs:
           name: Gen Docker file
           command: |
             ./build.sh << parameters.docker-tag >>
-            cp ./cacert.pem ./php-<< parameters.docker-tag >>
-            ls -la php-<< parameters.docker-tag >>
+            ls -la ver-<< parameters.docker-tag >>
       - run:
           name: build Docker image
           command: |
-            docker build -f php-<< parameters.docker-tag >>/Dockerfile \
+            docker build -f ver-<< parameters.docker-tag >>/Dockerfile \
               -t $IMAGE_NAME:<< parameters.docker-tag >> \
               ./ver-<< parameters.docker-tag >>
-            docker build -f php-<< parameters.docker-tag >>/Dockerfile.app \
+            docker build -f ver-<< parameters.docker-tag >>/Dockerfile.app \
               -t $IMAGE_NAME:app-<< parameters.docker-tag >> \
               ./ver-<< parameters.docker-tag >>
       - run:

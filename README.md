@@ -1,3 +1,6 @@
+[![CircleCI](https://circleci.com/gh/HillLiu/docker-django-slim/tree/master.svg?style=svg)](https://circleci.com/gh/HillLiu/docker-django-slim/tree/master)
+
+
 Django docker image base on python slim docker image.
 ======
 * Content
