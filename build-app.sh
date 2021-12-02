@@ -9,6 +9,10 @@ build() {
   sourceImage=$sourceImage DOCKER_FILE=${DOCKER_FILE} $DIR/compile.sh b
 }
 
+buildNocache() {
+  sourceImage=$sourceImage DOCKER_FILE=${DOCKER_FILE} $DIR/compile.sh nocache
+}
+
 push() {
   sourceImage=$sourceImage DOCKER_FILE=${DOCKER_FILE} $DIR/compile.sh p app 
 }
@@ -26,6 +30,9 @@ echo -n "
 case "$1" in
   b)
     build
+    ;;
+  nocache)
+    buildNocache
     ;;
   p)
     push

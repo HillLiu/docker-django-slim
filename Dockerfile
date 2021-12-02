@@ -13,7 +13,6 @@ RUN apt-get update && \
       libmaxminddb-dev \
       mmdb-bin
 
-
 RUN python${VERSION%.*} --version 
 ARG PIP3="/root/site/bin/pip3"
 ENV PIP_CACHE_DIR=/root/.cache/pip
@@ -49,7 +48,7 @@ RUN python${VERSION%.*} -m venv /root/site && \
       celery \
       channels \
       asgi_redis \
-      psycopg2 \
+      psycopg2-binary \
       feedparser
 
 
