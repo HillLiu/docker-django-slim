@@ -45,6 +45,7 @@ push() {
   echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
   docker push ${targetImage}:$tag
   echo "* Finish to push -->"
+  echo ""
   if [ ! -z "$1" ]; then
     if [ "x$VERSION" == "x$PUSH_VERSION" ]; then
       echo "* <!-- Start to auto push ${targetImage}:${LATEST_TAG}"
