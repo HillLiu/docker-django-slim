@@ -15,5 +15,6 @@ Django docker image base on python slim docker image.
 * https://pythonspeed.com/articles/alpine-docker-python/
 
 ## Docker hub
+   * Image Name: hillliu/django-slim
    * https://hub.docker.com/r/hillliu/django-slim
 
