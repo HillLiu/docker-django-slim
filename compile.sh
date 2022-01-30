@@ -62,12 +62,17 @@ build() {
   else
     NO_CACHE="--no-cache"
   fi
-  if [ -z "$VERSION" ]; then
-    BUILD_ARG=""
-  else
-    BUILD_ARG="--build-arg VERSION=${VERSION}"
+  BUILD_ARG=""
+  if [ ! -z "$VERSION" ]; then
+    BUILD_ARG="$BUILD_ARG --build-arg VERSION=${VERSION}"
+  fi
+  if [ ! -z "$ALT_VERSION" ]; then
+    BUILD_ARG="$BUILD_ARG --build-arg ALT_VERSION=${ALT_VERSION}"
   fi
   echo build: ${DIR}/${DOCKER_FILE}
+  if [ -z "$NO_CACHE" ]; then
+    echo nocache: ${NO_CACHE}
+  fi
   docker build ${BUILD_ARG} ${NO_CACHE} -f ${DIR}/${DOCKER_FILE} -t $sourceImage ${DIR}
   list
 }
