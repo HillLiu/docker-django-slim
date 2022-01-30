@@ -48,16 +48,6 @@ jobs:
             sourceImage=$IMAGE_NAME:app-<< parameters.docker-tag >> \
             DOCKER_FILE=Dockerfile.app \
             ./compile.sh p << parameters.docker-tag >> app
-  trigger-pmvc:
-    executor: docker-publisher
-    steps:
-      - run:
-          name: Trigger pmvc to test docker image
-          # https://app.circleci.com/settings/user/tokens
-          command: |
-            curl -X POST --url https://circleci.com/api/v2/project/github/pmvc/pmvc/pipeline \
-               --header "Content-Type: application/json" \
-               --header "Circle-Token: $CIRCLE_TOKEN"
 
 workflows:
   run-job:
@@ -66,13 +56,3 @@ workflows:
           matrix:
             parameters:
               docker-tag: ["3.8"]
-  nightly:
-    jobs:
-      - trigger-pmvc
-    triggers:
-      - schedule:
-          cron: "0 0 1 * *"
-          filters:
-            branches:
-              only:
-                - master
