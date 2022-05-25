@@ -1,23 +1,34 @@
 #!/usr/bin/env bash
 
-DIR="$( cd "$(dirname "$0")" ; pwd -P )"
+DIR="$(
+  cd "$(dirname "$0")"
+  pwd -P
+)"
+
+FOLDER_PREFIX=$(${DIR}/support/FOLDER_PREFIX.sh)
+COPY_FILES=$(${DIR}/support/COPY_FILES.sh)
+DOCKER_FILES=$(${DIR}/support/DOCKER_FILES.sh)
+BUILD_VERSION=$1
+
+if [ -z "$BUILD_VERSION" ]; then
+  echo "Not set build version."
+  exit 1
+fi
 
 do_build() {
-  VER=$1
-  SED_REPLACE_VER=$VER
-  if [ "x$VER" == "xlatest" ]; then
-    SED_REPLACE_VER=8
-  fi
-  DEST_FOLDER=${DIR}/ver-$VER
+  echo 'building --- Version: ' $BUILD_VERSION '-->'
+  DEST_FOLDER=${DIR}/${FOLDER_PREFIX}${BUILD_VERSION}
   mkdir -p ${DEST_FOLDER}
-  echo "building --- Version: " $VER "-->";
-  DEST_FILE=${DEST_FOLDER}/Dockerfile
 
-  for i in "" .app; 
-    do cp Dockerfile${i} ${DEST_FILE}${i};
-    sed -i -e "s|\[VERSION\]|$SED_REPLACE_VER|g" ${DEST_FILE}${i};
-    if [ -e "${DEST_FILE}${i}-e" ]; then rm ${DEST_FILE}${i}-e; fi;
-  done;
+  for file in $COPY_FILES; do [ -e "$file" ] && cp $file ${DEST_FOLDER}; done
+  for file in $DOCKER_FILES; do
+    if [ -e "$file" ]; then
+      cp $file ${DEST_FOLDER}
+      DEST_FILE=${DEST_FOLDER}/$file
+      sed -i -e "s|\[VERSION\]|$BUILD_VERSION|g" ${DEST_FILE}
+      if [ -e "${DEST_FILE}-e" ]; then rm ${DEST_FILE}-e; fi
+    fi
+  done
 }
 
-do_build $1 
+do_build

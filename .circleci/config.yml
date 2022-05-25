@@ -24,8 +24,17 @@ jobs:
       - run:
           name: Gen Docker file
           command: |
+            FOLDER=${FOLDER_PREFIX}<< parameters.docker-tag >>
+            FOLDER_PREFIX=$(support/FOLDER_PREFIX.sh)
+            DOCKER_FILES=$(support/DOCKER_FILES.sh)
             ./build.sh << parameters.docker-tag >>
-            ls -la ver-<< parameters.docker-tag >>
+            ls -la ${FOLDER}
+            for file in $DOCKER_FILES; do
+              echo "###"
+              echo "# --- Dockerfile ($file) Content ---"
+              echo "###"
+              cat ${FOLDER}/$file
+            done
       - run:
           name: Build Docker image
           command: |
@@ -43,7 +52,7 @@ jobs:
               -t $IMAGE_NAME:app-<< parameters.docker-tag >> \
               ./ver-<< parameters.docker-tag >>
       - run:
-          name: Publish app
+          name: Publish app to Docker Hub
           command: |
             sourceImage=$IMAGE_NAME:app-<< parameters.docker-tag >> \
             DOCKER_FILE=Dockerfile.app \
